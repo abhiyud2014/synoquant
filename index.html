@@ -128,11 +128,14 @@
   }
   .navbar{display:flex; align-items:center; justify-content:space-between; gap:24px;}
   .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:19px;}
-  .logo-mark{
-    width:30px; height:30px; border-radius:8px; background:var(--accent); position:relative; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
+  .logo-img{
+    width:39px; height:32px; overflow:hidden; flex-shrink:0; position:relative;
+    transition:width .35s ease;
   }
-  .logo-mark span{width:10px; height:10px; border-radius:2px; background:#fff; transform:rotate(45deg);}
+  .logo-img img{
+    position:absolute; left:-32px; top:-44px; height:128px; width:auto; max-width:none; display:block;
+  }
+  .logo:hover .logo-img, .logo:focus-visible .logo-img{width:125px;}
   .nav-links{display:flex; align-items:center; gap:32px; font-size:14.5px; font-weight:500; color:var(--text-soft);}
   .nav-links a{transition:color .15s ease;}
   .nav-links a:hover{color:var(--accent);}
@@ -143,8 +146,17 @@
   .theme-btn{
     width:38px; height:38px; border-radius:50%; border:2px solid var(--surface); box-shadow:0 0 0 1px var(--border);
     background:var(--accent); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform .15s ease;
+    position:relative;
   }
   .theme-btn:hover{transform:scale(1.06);}
+  .theme-btn::after{
+    content:"Select theme"; position:absolute; top:calc(100% + 8px); right:0;
+    background:var(--text); color:var(--bg); font-family:var(--font-body); font-size:12px; font-weight:500;
+    padding:6px 10px; border-radius:8px; white-space:nowrap; line-height:1;
+    opacity:0; visibility:hidden; transform:translateY(-4px); transition:all .18s ease; pointer-events:none; z-index:110;
+  }
+  .theme-btn:hover::after, .theme-btn:focus-visible::after{opacity:1; visibility:visible; transform:translateY(0);}
+  .theme-switch:has(.theme-menu.open) .theme-btn::after{opacity:0; visibility:hidden;}
   .theme-menu{
     position:absolute; top:52px; right:0; background:var(--surface); border:1px solid var(--border); border-radius:12px;
     box-shadow:var(--shadow-card); padding:8px; width:198px; opacity:0; visibility:hidden; transform:translateY(-6px);
@@ -389,9 +401,10 @@
 
 <header id="site-header">
   <div class="wrap navbar">
-    <a data-scroll="top" class="logo">
-      <span class="logo-mark"><span></span></span>
-      Synoquant
+    <a data-scroll="top" class="logo" aria-label="Synoquant Solutions Ltd.">
+      <span class="logo-img">
+        <img src="synoLogo.png" alt="" aria-hidden="true">
+      </span>
     </a>
 
     <nav class="nav-links" id="navLinks">
@@ -714,7 +727,11 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a data-scroll="top" class="logo"><span class="logo-mark"><span></span></span>Synoquant</a>
+        <a data-scroll="top" class="logo" aria-label="Synoquant Solutions Ltd.">
+          <span class="logo-img">
+            <img src="synoLogo.png" alt="" aria-hidden="true">
+          </span>
+        </a>
         <p>Enterprise AI, industrial automation, and intelligent infrastructure for organizations that can't afford to guess.</p>
       </div>
       <div class="foot-col">
@@ -794,6 +811,11 @@
   const navLinks = document.getElementById('navLinks');
   menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  document.addEventListener('click', (e) => {
+    if(navLinks.classList.contains('open') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)){
+      navLinks.classList.remove('open');
+    }
+  });
 
   // ---- Sticky header, scroll progress, back-to-top ----
   const header = document.getElementById('site-header');
