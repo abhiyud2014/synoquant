@@ -372,6 +372,11 @@
   .foot-brand p{color:var(--text-soft); font-size:13.5px; margin-top:14px; max-width:260px;}
   .foot-col h5{font-family:var(--font-mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;}
   .foot-col ul{display:flex; flex-direction:column; gap:9px; font-size:13.5px; color:var(--text-soft);}
+  .foot-col ul.foot-mails{margin-top:14px;}
+  .foot-mails li{position:relative; padding-left:14px;}
+  .foot-mails li::before{content:"•"; position:absolute; left:0; color:var(--accent);}
+  .foot-mails li:first-child{padding-left:0; font-weight:600; color:var(--text);}
+  .foot-mails li:first-child::before{content:"";}
   .foot-bottom{border-top:1px solid var(--border); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12.5px; color:var(--text-faint);}
   .foot-social{display:flex; gap:10px; margin-top:16px;}
   .foot-social a{
@@ -894,7 +899,7 @@
         <h2>Let's discuss what your operations need next.</h2>
         <p>Tell us about your environment — plant, substation, or enterprise — and we'll map out where IoT + AI monitoring can help first.</p>
         <div class="cta-actions">
-          <a href="mailto:hello@synoquant.example" class="btn btn-primary" style="background:#fff; color:var(--dark-bg);">Start a conversation</a>
+          <a href="mailto:dev@synoquant.in" class="btn btn-primary" style="background:#fff; color:var(--dark-bg);">Start a conversation</a>
           <a data-scroll="top" class="btn btn-dark">Back to top</a>
         </div>
       </div>
@@ -925,7 +930,14 @@
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <ul><li>Office — to be finalized</li><li>Email — <a href="mailto:hello@synoquant.example">hello@synoquant.example</a></li><li>Phone — to be finalized</li></ul>
+        <ul><li>Office — Bengaluru</li></ul>
+        <ul class="foot-mails">
+          <li>Email:</li>
+          <li><a href="mailto:dev@synoquant.in">dev@synoquant.in</a></li>
+          <li><a href="mailto:raj@synoquant.in">raj@synoquant.in</a></li>
+          <li><a href="mailto:tanmay@synoquant.in">tanmay@synoquant.in</a></li>
+          <li><a href="mailto:manasrath@synoquant.in">manasrath@synoquant.in</a></li>
+        </ul>
       </div>
       <div class="foot-col">
         <h5>Company type</h5>
