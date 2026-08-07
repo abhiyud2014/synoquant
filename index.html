@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="teal">
 <head>
+<script>
+  (function(){
+    try{
+      var m = localStorage.getItem('synoquant-mode');
+      if(m) document.documentElement.setAttribute('data-mode', m);
+      var t = localStorage.getItem('synoquant-theme');
+      if(t) document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Synoquant Solutions Ltd. — Enterprise AI &amp; Industrial Automation</title>
-<meta name="description" content="Synoquant Solutions Ltd. builds practical AI, industrial automation, and intelligent infrastructure for enterprises, utilities, and industrial plants.">
-<meta property="og:title" content="Synoquant Solutions Ltd. — Enterprise AI &amp; Industrial Automation">
-<meta property="og:description" content="Practical AI, industrial automation, and intelligent infrastructure for enterprises, utilities, and industrial plants.">
+<title>Synoquant Solutions Ltd. — Industrial IoT &amp; AI Ecosystems</title>
+<meta name="description" content="Synoquant builds next-generation IoT + AI ecosystems for enterprises — predictive maintenance, plant safety, asset reliability, workforce monitoring, and real-time decision-making.">
+<meta property="og:title" content="Synoquant Solutions Ltd. — Industrial IoT &amp; AI Ecosystems">
+<meta property="og:description" content="Industrial IoT + AI ecosystems for predictive maintenance, plant safety, and real-time operational intelligence.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0F6E56">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F6E56'/%3E%3Crect x='12' y='12' width='8' height='8' fill='white' transform='rotate(45 16 16)'/%3E%3C/svg%3E">
@@ -29,6 +39,7 @@
     --radius:14px;
 
     --shadow-card: 0 1px 2px rgba(20,23,26,0.04), 0 8px 24px rgba(20,23,26,0.05);
+    --header-bg:rgba(251,250,247,0.86);
   }
 
   /* ---- Theme palettes ---- */
@@ -46,6 +57,12 @@
   }
   html[data-theme="green"]{
     --accent:#3B6D11; --accent-dark:#27500A; --accent-soft:#EAF3DE; --dark-bg:#17300A; --dark-bg-alt:#254613;
+  }
+
+  /* ---- Dark / light mode ---- */
+  html[data-mode="dark"]{
+    --text:#E6E9EC; --text-soft:#9AA1A9; --text-faint:#6E767E; --bg:#0E1215; --bg-alt:#151A1E; --surface:#1B2126; --border:#2B333A;
+    --header-bg:rgba(14,18,21,0.85);
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -98,6 +115,7 @@
   img,svg{display:block; max-width:100%;}
   a{color:inherit; text-decoration:none;}
   [data-scroll]{cursor:pointer;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
   ul{list-style:none;}
   section{position:relative;}
   .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
@@ -120,11 +138,15 @@
 
   /* ---------- Navbar ---------- */
   header{
+    --text:#23282D; --text-soft:#5C646C; --text-faint:#8A929A;
+    --bg:#FAF9F7; --bg-alt:#EFEDE8; --surface:#FFFFFF; --border:#E4E6E8;
+    --header-bg:rgba(251,250,247,0.86);
     position:fixed; top:0; left:0; right:0; z-index:100;
     padding:20px 0; transition:all .25s ease;
+    background:var(--header-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
   }
   header.scrolled{
-    padding:12px 0; background:rgba(251,250,247,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
+    padding:12px 0;
   }
   .navbar{display:flex; align-items:center; justify-content:space-between; gap:24px;}
   .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:19px;}
@@ -139,6 +161,7 @@
   .nav-links{display:flex; align-items:center; gap:32px; font-size:14.5px; font-weight:500; color:var(--text-soft);}
   .nav-links a{transition:color .15s ease;}
   .nav-links a:hover{color:var(--accent);}
+  .nav-links a.active{color:var(--accent); font-weight:600;}
   .nav-right{display:flex; align-items:center; gap:14px;}
 
   /* theme switcher */
@@ -216,6 +239,7 @@
     padding:16px 0; overflow:hidden; white-space:nowrap; position:relative; background:var(--bg-alt);
   }
   .ticker-track{display:inline-flex; gap:48px; animation:scroll 32s linear infinite; font-family:var(--font-mono); font-size:12.5px; color:var(--text-soft);}
+  .ticker:hover .ticker-track{animation-play-state:paused;}
   .ticker-track span b{color:var(--accent); font-weight:500;}
   @keyframes scroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
 
@@ -226,21 +250,55 @@
   .section-head p{color:var(--text-soft); font-size:15.5px;}
   .alt{background:var(--bg-alt);}
 
-  /* verticals */
+  /* platform cards */
   .vert-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
   .vert-card{
     background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px;
-    transition:border-color .2s ease, transform .2s ease;
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease; position:relative; overflow:hidden;
   }
-  .vert-card:hover{border-color:var(--accent); transform:translateY(-3px);}
+  .vert-card[data-vertical]{cursor:pointer; perspective:1100px;}
+  .vert-card:hover{border-color:var(--accent); transform:translateY(-3px); box-shadow:0 12px 28px rgba(20,23,26,0.12);}
   .vert-card h3{font-size:17px; margin-bottom:10px;}
   .vert-card ul{color:var(--text-soft); font-size:13.5px; display:flex; flex-direction:column; gap:5px;}
   .vert-card ul li::before{content:"— "; color:var(--accent);}
 
+  .vert-flip{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.45,.05,.2,1);}
+  .vert-card[data-vertical]:hover .vert-flip, .vert-card[data-vertical]:focus-visible .vert-flip{transform:rotateY(180deg);}
+  .vert-front, .vert-back{backface-visibility:hidden; -webkit-backface-visibility:hidden;}
+  .vert-front{padding:24px;}
+  .vert-back{
+    position:absolute; inset:0; transform:rotateY(180deg); display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:12px; text-align:center; padding:24px;
+    background:var(--accent-soft); border-radius:calc(var(--radius) - 1px); color:var(--accent-dark);
+  }
+  .vert-back p{font-size:13px; line-height:1.5; max-width:230px; font-weight:500;}
+  .vert-back .vert-hint{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; opacity:.75;}
+  .vert-caption{display:flex; flex-direction:column; align-items:center; gap:12px;}
+  .vert-back svg{width:92px; height:92px; fill:none; stroke:var(--accent-dark); stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;}
+  .vert-back svg .v-node{fill:var(--accent-dark); stroke:none; animation:vpulse 2.4s ease-in-out infinite;}
+  .vert-back svg .v-flow{stroke-dasharray:4 7; animation:vflow 2.6s linear infinite;}
+  .vert-back svg .v-scan{stroke-dasharray:4 6; animation:vscan 3.4s ease-in-out infinite;}
+  .vert-back svg .v-grow{animation:vgrow 2.4s ease-in-out infinite;}
+  .vert-back svg .v-bubble{fill:var(--accent-dark); stroke:none; animation:vrise 2.8s ease-in infinite;}
+  .vert-back svg .v-ring{animation:vring 2.6s ease-out infinite;}
+  .vert-back svg .v-spin{animation:vspin 12s linear infinite;}
+  .vert-back svg .v-spin-r{animation:vspin 12s linear infinite reverse;}
+  .vert-back svg .v-sweep{animation:vspin 3.6s linear infinite;}
+  .vert-back svg .v-slow{animation:vspin 26s linear infinite;}
+  .vert-back svg .v-swing{animation:vswing 2.2s ease-in-out infinite;}
+  @keyframes vspin{to{transform:rotate(360deg);}}
+  @keyframes vpulse{0%,100%{opacity:.3;} 50%{opacity:1;}}
+  @keyframes vflow{to{stroke-dashoffset:-66;}}
+  @keyframes vscan{0%{transform:translateX(-30px); opacity:0;} 25%{opacity:1;} 75%{opacity:.9;} 100%{transform:translateX(20px); opacity:0;}}
+  @keyframes vgrow{0%{transform:scaleY(.15);} 55%{transform:scaleY(1.05);} 100%{transform:scaleY(1);}}
+  @keyframes vrise{0%{transform:translateY(0); opacity:0;} 15%{opacity:1;} 80%{opacity:.9;} 100%{transform:translateY(-24px); opacity:0;}}
+  @keyframes vring{0%{transform:scale(.35); opacity:.9;} 100%{transform:scale(1.6); opacity:0;}}
+  @keyframes vswing{0%,100%{transform:rotate(-14deg);} 50%{transform:rotate(14deg);}}
+
   /* industries */
   .ind-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
-  .ind-card{background:var(--surface); padding:26px 24px; transition:background .2s ease; cursor:pointer;}
-  .ind-card:hover{background:var(--accent-soft);}
+  .ind-card{background:var(--surface); padding:26px 24px; transition:background .2s ease, box-shadow .2s ease; cursor:pointer;}
+  .ind-card:hover{background:var(--accent-soft); box-shadow:0 10px 24px rgba(20,23,26,0.1);}
   .ind-card:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
   .ind-card h3{font-size:16px; margin-bottom:0;}
   .ind-title-row > i{
@@ -276,6 +334,7 @@
     display:flex; gap:10px; font-size:14px; color:var(--text); background:var(--bg-alt); border-radius:10px; padding:11px 14px;
   }
   .modal-uses li::before{content:"→"; color:var(--accent); font-weight:600; flex-shrink:0;}
+  .modal-principle{color:var(--text-soft); font-size:14px; background:var(--bg-alt); border-left:3px solid var(--accent); border-radius:10px; padding:12px 14px; margin-bottom:22px; line-height:1.65;}
   .modal-footer{margin-top:26px; padding-top:20px; border-top:1px solid var(--border);}
 
   /* process */
@@ -314,10 +373,21 @@
   .foot-col h5{font-family:var(--font-mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px;}
   .foot-col ul{display:flex; flex-direction:column; gap:9px; font-size:13.5px; color:var(--text-soft);}
   .foot-bottom{border-top:1px solid var(--border); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12.5px; color:var(--text-faint);}
+  .foot-social{display:flex; gap:10px; margin-top:16px;}
+  .foot-social a{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--border); background:var(--surface);
+    display:flex; align-items:center; justify-content:center; color:var(--text-soft); transition:all .18s ease;
+  }
+  .foot-social a:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px);}
+  .foot-social svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;}
 
   /* reveal on scroll */
   .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* hero panel 3D tilt */
+  .hero-panel.reveal{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(18px); transition:transform .2s ease, opacity .6s ease;}
+  .hero-panel.reveal.in{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(0);}
 
   /* scroll progress */
   .scroll-progress{position:fixed; top:0; left:0; height:3px; width:0%; background:var(--accent); z-index:120; transition:width .1s linear;}
@@ -331,6 +401,23 @@
   .to-top.show{opacity:1; visibility:visible; transform:translateY(0);}
   .to-top:hover{background:var(--accent-dark);}
   .to-top svg{width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+
+  /* film grain overlay */
+  .grain{
+    position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* dark / light mode button */
+  .mode-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--border); background:var(--surface); color:var(--text);
+    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s ease;
+  }
+  .mode-btn:hover{transform:scale(1.06); border-color:var(--accent); color:var(--accent);}
+  .mode-btn svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+  .ic-sun{display:none;}
+  html[data-mode="dark"] .ic-moon{display:none;}
+  html[data-mode="dark"] .ic-sun{display:block;}
 
   /* hero panel pointer glow */
   .hero-panel .glow{
@@ -353,13 +440,14 @@
   .lead-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;}
   .lead-card{
     background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:26px 22px;
-    transition:border-color .2s ease, transform .2s ease;
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
   }
-  .lead-card:hover{border-color:var(--accent); transform:translateY(-3px);}
+  .lead-card:hover{border-color:var(--accent); transform:translateY(-3px); box-shadow:0 12px 28px rgba(20,23,26,0.12);}
   .lead-avatar{
     width:48px; height:48px; border-radius:50%; background:var(--accent-soft); color:var(--accent-dark); font-family:var(--font-display);
     font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;
   }
+  .lead-avatar svg{width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
   .lead-card h3{font-size:16px; margin-bottom:4px;}
   .lead-role{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
   .lead-card p{font-size:13.5px; color:var(--text-soft);}
@@ -394,6 +482,7 @@
 </style>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 <div class="scroll-progress" id="scrollProgress"></div>
 <button class="to-top" id="toTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>
@@ -403,11 +492,12 @@
   <div class="wrap navbar">
     <a data-scroll="top" class="logo" aria-label="Synoquant Solutions Ltd.">
       <span class="logo-img">
-        <img src="synoLogo.png" alt="" aria-hidden="true">
+        <img src="synoLogo.png" alt="" aria-hidden="true" decoding="async">
       </span>
     </a>
 
     <nav class="nav-links" id="navLinks">
+      <a data-scroll="platforms">Platforms</a>
       <a data-scroll="verticals">Verticals</a>
       <a data-scroll="industries">Industries</a>
       <a data-scroll="process">How we work</a>
@@ -417,6 +507,10 @@
     </nav>
 
     <div class="nav-right">
+      <button class="mode-btn" id="modeBtn" aria-label="Toggle dark mode">
+        <svg class="ic-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>
+      </button>
       <div class="theme-switch">
         <button class="theme-btn" id="themeBtn" aria-label="Change color theme" aria-haspopup="true" aria-expanded="false"></button>
         <div class="theme-menu" id="themeMenu" role="menu">
@@ -465,12 +559,12 @@
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow">AI · Industrial Automation · Enterprise Systems</div>
-          <h1>Intelligent systems for <em>plants, grids, and enterprises</em> that can't afford to guess.</h1>
-          <p class="lead">Synoquant Solutions designs and deploys practical AI, computer vision, and automation for operations where safety, uptime, and measurable outcomes come first — from the control room to the shop floor.</p>
+          <div class="eyebrow">Industrial IoT · AI Analytics · Automation</div>
+          <h1>Industrial IoT + AI ecosystems for <em>plants, grids, and enterprises</em> that can't afford to guess.</h1>
+          <p class="lead">Synoquant builds next-generation IoT + AI ecosystems — telemetry, MODBUS, edge computing, computer vision, and predictive analytics — that improve operational efficiency, plant safety, asset reliability, workforce monitoring, and real-time decision-making.</p>
           <div class="hero-actions">
             <a data-scroll="contact" class="btn btn-primary">Book a consult</a>
-            <a data-scroll="verticals" class="btn btn-ghost">See what we build</a>
+            <a data-scroll="platforms" class="btn btn-ghost">See what we build</a>
           </div>
         </div>
 
@@ -482,8 +576,8 @@
           </div>
           <div class="metric-grid">
             <div class="metric">
-              <div class="num" data-target="12">0</div>
-              <div class="label">Business verticals</div>
+              <div class="num" data-target="8">0</div>
+              <div class="label">Solution platforms</div>
               <div class="bar"><i data-width="82%"></i></div>
             </div>
             <div class="metric">
@@ -507,68 +601,134 @@
 
       <div class="ticker">
         <div class="ticker-track">
-          <span><b>AI &amp; GenAI</b> — agentic systems &amp; copilots</span>
-          <span><b>Industrial AI</b> — predictive maintenance</span>
-          <span><b>IoT &amp; Edge AI</b> — remote asset monitoring</span>
-          <span><b>Cybersecurity</b> — compliance-ready deployments</span>
-          <span><b>Cloud Engineering</b> — scalable platforms</span>
-          <span><b>Managed Services</b> — L1–L3 support</span>
-          <span><b>AI &amp; GenAI</b> — agentic systems &amp; copilots</span>
-          <span><b>Industrial AI</b> — predictive maintenance</span>
-          <span><b>IoT &amp; Edge AI</b> — remote asset monitoring</span>
-          <span><b>Cybersecurity</b> — compliance-ready deployments</span>
-          <span><b>Cloud Engineering</b> — scalable platforms</span>
-          <span><b>Managed Services</b> — L1–L3 support</span>
+          <span><b>VFD Monitoring</b> — telemetry &amp; energy analytics</span>
+          <span><b>Seal Pot Monitoring</b> — health &amp; pressure intelligence</span>
+          <span><b>Conveyor Belt Intelligence</b> — AI predictive maintenance</span>
+          <span><b>Substation &amp; DG Monitoring</b> — fault detection</span>
+          <span><b>Enerlytics</b> — AI energy intelligence</span>
+          <span><b>Fire &amp; Industrial Safety</b> — computer vision</span>
+          <span><b>Workforce Monitoring</b> — zone &amp; productivity analytics</span>
+          <span><b>IOTA™ Industrial IoT Hub</b> — multi-plant dashboards</span>
+          <span><b>VFD Monitoring</b> — telemetry &amp; energy analytics</span>
+          <span><b>Seal Pot Monitoring</b> — health &amp; pressure intelligence</span>
+          <span><b>Conveyor Belt Intelligence</b> — AI predictive maintenance</span>
+          <span><b>Substation &amp; DG Monitoring</b> — fault detection</span>
+          <span><b>Enerlytics</b> — AI energy intelligence</span>
+          <span><b>Fire &amp; Industrial Safety</b> — computer vision</span>
+          <span><b>Workforce Monitoring</b> — zone &amp; productivity analytics</span>
+          <span><b>IOTA™ Industrial IoT Hub</b> — multi-plant dashboards</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- PLATFORMS -->
+  <section class="section" id="platforms">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Solution platforms</div>
+        <h2>Eight flagship platforms, engineered for industrial operations</h2>
+        <p>IoT + AI ecosystems built on telemetry, MODBUS, edge computing, computer vision, and real-time analytics — from the plant floor to the control room.</p>
+      </div>
+      <div class="vert-grid">
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M3 12h5l2-6 4 12 2-6h5"/></svg></div><h3>VFD Monitoring &amp; Analytics</h3><ul>
+          <li>Real-time drive telemetry</li><li>Anomaly detection &amp; predictive alerts</li><li>Energy optimization analytics</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z"/><line x1="12" y1="8" x2="12" y2="12"/></svg></div><h3>Seal Pot Monitoring System</h3><ul>
+          <li>Pressure &amp; temperature tracking</li><li>Seal pot health analytics</li><li>Centralized dashboards &amp; alerting</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><rect x="3" y="16" width="18" height="3" rx="1"/><rect x="6" y="9" width="5" height="5" rx="0.8"/><rect x="13" y="9" width="5" height="5" rx="0.8"/></svg></div><h3>Conveyor Belt Intelligence</h3><ul>
+          <li>Bearing temperature monitoring</li><li>Chain elongation analysis</li><li>Predictive maintenance &amp; failure prevention</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div><h3>Substation &amp; DG Monitoring</h3><ul>
+          <li>Unified substation &amp; generator telemetry</li><li>Fault detection &amp; diagnostics</li><li>Energy analytics &amp; operational intelligence</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><line x1="5" y1="20" x2="5" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="19" y1="20" x2="19" y2="15"/><line x1="3" y1="20" x2="21" y2="20"/></svg></div><h3>Enerlytics — Energy Intelligence</h3><ul>
+          <li>AI-powered energy analytics</li><li>Consumption &amp; demand prediction</li><li>Optimization recommendations</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.8-3 7.9-7 9-4-1.1-7-4.2-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Fire &amp; Industrial Safety</h3><ul>
+          <li>Computer-vision fire detection</li><li>PPE &amp; unsafe-activity monitoring</li><li>Hazard alerts &amp; emergency response</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="2.6"/><circle cx="17" cy="9.5" r="2.1"/><path d="M4 19c0-2.8 2.2-5 6-5s6 2.2 6 5"/><path d="M15.5 14.3c2.6.3 4.5 2.1 4.5 4.7"/></svg></div><h3>Workforce Monitoring &amp; Intelligence</h3><ul>
+          <li>Attendance &amp; movement tracking</li><li>Zone monitoring &amp; safety compliance</li><li>Productivity analytics</li></ul></div>
+
+        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.6"/><circle cx="12" cy="20" r="1.6"/><circle cx="4" cy="12" r="1.6"/><circle cx="20" cy="12" r="1.6"/><line x1="12" y1="9" x2="12" y2="5.6"/><line x1="12" y1="15" x2="12" y2="18.4"/><line x1="9" y1="12" x2="5.6" y2="12"/><line x1="15" y1="12" x2="18.4" y2="12"/></svg></div><h3>IOTA™ Industrial IoT Hub</h3><ul>
+          <li>Device, sensor &amp; telemetry integration</li><li>Digital twins &amp; AI analytics</li><li>Multi-plant operational dashboards</li></ul></div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- VERTICALS -->
-  <section class="section" id="verticals">
+  <section class="section alt" id="verticals">
     <div class="wrap">
       <div class="section-head reveal">
         <div class="eyebrow">Business verticals</div>
         <h2>Twelve disciplines, one delivery team</h2>
-        <p>We work across the full stack of enterprise and industrial technology — so a plant floor problem and a boardroom dashboard can be solved by the same partner.</p>
+        <p>Beyond our flagship platforms, we deliver a full stack of enterprise and industrial capabilities — so a plant floor problem and a boardroom dashboard can be solved by the same partner.</p>
       </div>
       <div class="vert-grid">
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.6"/><circle cx="12" cy="20" r="1.6"/><circle cx="4" cy="12" r="1.6"/><circle cx="20" cy="12" r="1.6"/><line x1="12" y1="9" x2="12" y2="5.6"/><line x1="12" y1="15" x2="12" y2="18.4"/><line x1="9" y1="12" x2="5.6" y2="12"/><line x1="15" y1="12" x2="18.4" y2="12"/></svg></div><h3>AI &amp; GenAI</h3><ul>
-          <li>Generative &amp; agentic AI systems</li><li>Conversational AI &amp; copilots</li><li>AI workflow automation</li></ul></div>
+        <div class="vert-card reveal" data-vertical="ai" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.6"/><circle cx="12" cy="20" r="1.6"/><circle cx="4" cy="12" r="1.6"/><circle cx="20" cy="12" r="1.6"/><line x1="12" y1="9" x2="12" y2="5.6"/><line x1="12" y1="15" x2="12" y2="18.4"/><line x1="9" y1="12" x2="5.6" y2="12"/><line x1="15" y1="12" x2="18.4" y2="12"/></svg></div><h3>AI &amp; GenAI</h3><ul>
+          <li>Generative &amp; agentic AI systems</li><li>Conversational AI &amp; copilots</li><li>AI workflow automation</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><line x1="48" y1="48" x2="48" y2="20" class="v-flow"/><line x1="48" y1="48" x2="20" y2="48" class="v-flow"/><line x1="48" y1="48" x2="76" y2="48" class="v-flow"/><line x1="48" y1="48" x2="30" y2="76" class="v-flow"/><line x1="48" y1="48" x2="66" y2="76" class="v-flow"/><circle cx="48" cy="48" r="7" class="v-node"/><circle cx="48" cy="20" r="4.5" class="v-node" style="animation-delay:.3s"/><circle cx="20" cy="48" r="4.5" class="v-node" style="animation-delay:.6s"/><circle cx="76" cy="48" r="4.5" class="v-node" style="animation-delay:.9s"/><circle cx="30" cy="76" r="4.5" class="v-node" style="animation-delay:.5s"/><circle cx="66" cy="76" r="4.5" class="v-node" style="animation-delay:.8s"/></svg>
+        <div class="vert-caption"><p>Agentic AI, copilots, and intelligent automation</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg></div><h3>Industrial AI</h3><ul>
-          <li>Computer vision for safety</li><li>Predictive maintenance</li><li>Digital twins</li></ul></div>
+        <div class="vert-card reveal" data-vertical="indai" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg></div><h3>Industrial AI</h3><ul>
+          <li>Computer vision for safety</li><li>Predictive maintenance</li><li>Digital twins</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M8 48 Q48 20 88 48 Q48 76 8 48Z"/><circle cx="48" cy="48" r="12"/><circle cx="48" cy="48" r="4.5" class="v-node"/><line x1="62" y1="48" x2="82" y2="48" class="v-scan"/></svg>
+        <div class="vert-caption"><p>Vision, predictive maintenance, digital twins</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.4M12 18.6V21M21 12h-2.4M5.4 12H3M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7M18.4 18.4l-1.7-1.7M7.3 7.3 5.6 5.6"/></svg></div><h3>Enterprise automation</h3><ul>
-          <li>Workflow &amp; document processing</li><li>Compliance automation</li><li>Decision-support systems</li></ul></div>
+        <div class="vert-card reveal" data-vertical="entauto" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.4M12 18.6V21M21 12h-2.4M5.4 12H3M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7M18.4 18.4l-1.7-1.7M7.3 7.3 5.6 5.6"/></svg></div><h3>Enterprise automation</h3><ul>
+          <li>Workflow &amp; document processing</li><li>Compliance automation</li><li>Decision-support systems</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><g class="v-spin" style="transform-origin:40px 54px"><circle cx="40" cy="54" r="13"/><circle cx="40" cy="54" r="4.5" class="v-node"/><path d="M40 35v-5M40 78v-5M21 54h-5M64 54h5M26.6 40.6l-3.5-3.5M56.9 67.4l3.5 3.5M56.9 40.6l3.5-3.5M26.6 67.4l-3.5 3.5"/></g><g class="v-spin-r" style="transform-origin:64px 72px"><circle cx="64" cy="72" r="9"/><circle cx="64" cy="72" r="3.5" class="v-node"/><path d="M64 59v-3.5M64 87.5V84M51 72h-3.5M79.5 72H76M54.4 62.4l-2.5-2.5M76.1 81.6l2.5 2.5M76.1 62.4l2.5-2.5M54.4 81.6l-2.5 2.5"/></g></svg>
+        <div class="vert-caption"><p>Workflows that run themselves</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><line x1="5" y1="20" x2="5" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="19" y1="20" x2="19" y2="15"/><line x1="3" y1="20" x2="21" y2="20"/></svg></div><h3>Data &amp; intelligence</h3><ul>
-          <li>Data engineering &amp; BI</li><li>Predictive analytics</li><li>Real-time dashboards</li></ul></div>
+        <div class="vert-card reveal" data-vertical="data" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><line x1="5" y1="20" x2="5" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="19" y1="20" x2="19" y2="15"/><line x1="3" y1="20" x2="21" y2="20"/></svg></div><h3>Data &amp; intelligence</h3><ul>
+          <li>Data engineering &amp; BI</li><li>Predictive analytics</li><li>Real-time dashboards</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><line x1="14" y1="82" x2="82" y2="82"/><line x1="14" y1="82" x2="14" y2="24"/><rect x="26" y="58" width="9" height="24" rx="2.5" class="v-grow" style="transform-origin:30.5px 82px; animation-delay:.1s"/><rect x="43" y="42" width="9" height="40" rx="2.5" class="v-grow" style="transform-origin:47.5px 82px; animation-delay:.35s"/><rect x="60" y="30" width="9" height="52" rx="2.5" class="v-grow" style="transform-origin:64.5px 82px; animation-delay:.6s"/><path d="M30 66 L47 46 L64 36" class="v-flow"/><circle cx="64" cy="36" r="3.5" class="v-node"/></svg>
+        <div class="vert-caption"><p>From raw data to live decisions</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M7 18h11a4 4 0 0 0 .5-7.97A5.5 5.5 0 0 0 8.1 8.6 4.5 4.5 0 0 0 7 18z"/></svg></div><h3>Cloud &amp; platform</h3><ul>
-          <li>Enterprise platforms</li><li>API integration</li><li>Secure deployment &amp; ops</li></ul></div>
+        <div class="vert-card reveal" data-vertical="cloud" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M7 18h11a4 4 0 0 0 .5-7.97A5.5 5.5 0 0 0 8.1 8.6 4.5 4.5 0 0 0 7 18z"/></svg></div><h3>Cloud &amp; platform</h3><ul>
+          <li>Enterprise platforms</li><li>API integration</li><li>Secure deployment &amp; ops</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M27 56 h34 a9 9 0 0 0 0-18 14 14 0 0 0-27-2.5 A11 11 0 0 0 27 56Z"/><path d="M48 56 V84" class="v-flow"/><rect x="28" y="66" width="40" height="22" rx="5"/><line x1="36" y1="73" x2="52" y2="73" class="v-flow"/><line x1="36" y1="81" x2="60" y2="81" class="v-flow"/><circle cx="46" cy="60" r="3" class="v-node" style="animation-delay:.4s"/><circle cx="68" cy="26" r="3" class="v-node"/></svg>
+        <div class="vert-caption"><p>Elastic, secure, cloud-native platforms</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="18" r="1.4"/><path d="M8 14.5a5.6 5.6 0 0 1 8 0"/><path d="M4.8 11.3a10 10 0 0 1 14.4 0"/></svg></div><h3>IoT &amp; Edge AI</h3><ul>
-          <li>Sensor integration</li><li>Remote monitoring</li><li>Industrial IoT platforms</li></ul></div>
+        <div class="vert-card reveal" data-vertical="iot" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="18" r="1.4"/><path d="M8 14.5a5.6 5.6 0 0 1 8 0"/><path d="M4.8 11.3a10 10 0 0 1 14.4 0"/></svg></div><h3>IoT &amp; Edge AI</h3><ul>
+          <li>Sensor integration</li><li>Remote monitoring</li><li>Industrial IoT platforms</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M22 40 a37 37 0 0 1 52 0"/><path d="M31 49 a27 27 0 0 1 34 0"/><path d="M39 58 a17 17 0 0 1 18 0"/><circle cx="48" cy="66" r="3.5" class="v-node"/><g class="v-sweep" style="transform-origin:48px 58px"><line x1="48" y1="58" x2="76" y2="58"/></g></svg>
+        <div class="vert-caption"><p>Sensors to dashboards, edge to cloud</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.8-3 7.9-7 9-4-1.1-7-4.2-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Cybersecurity</h3><ul>
-          <li>Monitoring &amp; alerting</li><li>Access &amp; audit controls</li><li>Compliance-ready builds</li></ul></div>
+        <div class="vert-card reveal" data-vertical="cyber" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.8-3 7.9-7 9-4-1.1-7-4.2-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Cybersecurity</h3><ul>
+          <li>Monitoring &amp; alerting</li><li>Access &amp; audit controls</li><li>Compliance-ready builds</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M48 16 L76 27 V48 C76 68 64 78 48 84 C32 78 20 68 20 48 V27Z" class="v-flow"/><path d="M41 48 v-6 a7 7 0 0 1 14 0 v6" class="v-flow"/><rect x="38" y="48" width="20" height="13" rx="3"/><circle cx="48" cy="53" r="2.2" class="v-node"/><circle cx="48" cy="30" r="2.5" class="v-node" style="animation-delay:.5s"/></svg>
+        <div class="vert-caption"><p>Secure by design, monitored always</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M12 5 2 9l10 4 10-4-10-4z"/><path d="M6 11v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></svg></div><h3>Learning &amp; development</h3><ul>
-          <li>Corporate &amp; faculty training</li><li>Technical workshops</li><li>Industry-academia models</li></ul></div>
+        <div class="vert-card reveal" data-vertical="lnd" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M12 5 2 9l10 4 10-4-10-4z"/><path d="M6 11v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></svg></div><h3>Learning &amp; development</h3><ul>
+          <li>Corporate &amp; faculty training</li><li>Technical workshops</li><li>Industry-academia models</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M48 22 L86 35 L48 48 L10 35Z"/><path d="M48 22 V40"/><path d="M29 45 v12 c0 5 8.5 8 19 8 s19-3 19-8 V45"/><g class="v-swing" style="transform-origin:76px 38px"><line x1="76" y1="38" x2="76" y2="52"/><circle cx="76" cy="55" r="3" class="v-node"/></g><path d="M20 68 H76 V82 H20Z"/><path d="M48 68 V82" class="v-flow"/></svg>
+        <div class="vert-caption"><p>Building skills that ship solutions</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="2.6"/><circle cx="17" cy="9.5" r="2.1"/><path d="M4 19c0-2.8 2.2-5 6-5s6 2.2 6 5"/><path d="M15.5 14.3c2.6.3 4.5 2.1 4.5 4.7"/></svg></div><h3>Staffing &amp; talent</h3><ul>
-          <li>Niche technology staffing</li><li>Project-based hiring</li><li>Skill-based deployment</li></ul></div>
+        <div class="vert-card reveal" data-vertical="staffing" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="2.6"/><circle cx="17" cy="9.5" r="2.1"/><path d="M4 19c0-2.8 2.2-5 6-5s6 2.2 6 5"/><path d="M15.5 14.3c2.6.3 4.5 2.1 4.5 4.7"/></svg></div><h3>Staffing &amp; talent</h3><ul>
+          <li>Niche technology staffing</li><li>Project-based hiring</li><li>Skill-based deployment</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><circle cx="30" cy="32" r="10"/><path d="M11 76 c0-15 8-21 19-21 s19 6 19 21"/><circle cx="70" cy="40" r="8"/><path d="M56 76 c0-12 6-17 14-17 s14 5 14 17"/><line x1="43" y1="30" x2="59" y2="36" class="v-flow"/><circle cx="59" cy="36" r="2.8" class="v-node"/></svg>
+        <div class="vert-caption"><p>The right specialists, on demand</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="5" rx="1.2"/><rect x="17" y="13" width="4" height="5" rx="1.2"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg></div><h3>Managed services</h3><ul>
-          <li>L1, L2, L3 support</li><li>Monitoring &amp; maintenance</li><li>Long-term operations</li></ul></div>
+        <div class="vert-card reveal" data-vertical="managed" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="5" rx="1.2"/><rect x="17" y="13" width="4" height="5" rx="1.2"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg></div><h3>Managed services</h3><ul>
+          <li>L1, L2, L3 support</li><li>Monitoring &amp; maintenance</li><li>Long-term operations</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M24 52 v-6 a24 24 0 0 1 48 0 v6"/><rect x="15" y="48" width="14" height="18" rx="5"/><rect x="67" y="48" width="14" height="18" rx="5"/><path d="M22 56 v10 a6 6 0 0 0 12 0 v-6"/><circle cx="12" cy="54" r="6" class="v-ring" style="transform-origin:12px 54px"/><circle cx="84" cy="54" r="6" class="v-ring" style="transform-origin:84px 54px; animation-delay:.5s"/></svg>
+        <div class="vert-caption"><p>Support, monitoring, and uptime</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/></svg></div><h3>Consulting &amp; advisory</h3><ul>
-          <li>AI adoption roadmaps</li><li>Discovery &amp; assessment</li><li>Solution architecture</li></ul></div>
+        <div class="vert-card reveal" data-vertical="consult" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/></svg></div><h3>Consulting &amp; advisory</h3><ul>
+          <li>AI adoption roadmaps</li><li>Discovery &amp; assessment</li><li>Solution architecture</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="33"/><circle cx="48" cy="48" r="22"/><g class="v-slow" style="transform-origin:48px 48px"><path d="M48 32 L53 48 L48 64 L43 48Z"/></g><circle cx="48" cy="48" r="3" class="v-node"/><path d="M48 22 v-6 M48 80 v6 M22 48 h-6 M80 48 h6" class="v-flow"/></svg>
+        <div class="vert-caption"><p>Roadmaps that turn intent into ROI</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
-        <div class="vert-card reveal"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M10 3h4"/><path d="M10 3v6l-5.5 9.5A1.8 1.8 0 0 0 6 21h12a1.8 1.8 0 0 0 1.5-2.5L14 9V3"/><path d="M8.5 15h7"/></svg></div><h3>Research &amp; CoE</h3><ul>
-          <li>Innovation labs</li><li>Academic partnerships</li><li>Pilot &amp; PoC design</li></ul></div>
+        <div class="vert-card reveal" data-vertical="coe" tabindex="0" role="button" aria-haspopup="dialog"><div class="vert-flip"><div class="vert-front"><div class="vicon"><svg viewBox="0 0 24 24"><path d="M10 3h4"/><path d="M10 3v6l-5.5 9.5A1.8 1.8 0 0 0 6 21h12a1.8 1.8 0 0 0 1.5-2.5L14 9V3"/><path d="M8.5 15h7"/></svg></div><h3>Research &amp; CoE</h3><ul>
+          <li>Innovation labs</li><li>Academic partnerships</li><li>Pilot &amp; PoC design</li></ul></div><div class="vert-back">
+        <svg class="vert-art" viewBox="0 0 96 96" aria-hidden="true"><path d="M40 18 h16 v24 l16 24 a7 7 0 0 1 -6 10 H30 a7 7 0 0 1 -6-10 l16-24Z"/><path d="M34 66 h28" class="v-flow"/><circle cx="46" cy="52" r="2.6" class="v-bubble"/><circle cx="54" cy="56" r="2.2" class="v-bubble" style="animation-delay:.7s"/><circle cx="42" cy="58" r="2" class="v-bubble" style="animation-delay:1.3s"/><circle cx="52" cy="48" r="1.8" class="v-bubble" style="animation-delay:.35s"/></svg>
+        <div class="vert-caption"><p>Prototype, prove, productionize</p><span class="vert-hint">Click for details</span></div></div></div></div>
 
       </div>
     </div>
@@ -580,14 +740,14 @@
       <div class="section-head reveal">
         <div class="eyebrow">Industry focus</div>
         <h2>Built for environments where downtime isn't an option</h2>
-        <p>From transformer yards to hospital wards, our solutions are shaped by the operating conditions of each sector.</p>
+        <p>From transformer yards to conveyor lines, our platforms are shaped by the operating conditions of each sector.</p>
       </div>
       <div class="ind-grid" id="indGrid">
         <div class="ind-card reveal" data-industry="power" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div><h3>Power &amp; utilities</h3><i>+</i></div><p>Surveillance dashboards, grid anomaly detection, and transformer health monitoring.</p></div>
         <div class="ind-card reveal" data-industry="gas" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M12 2c1 3-3 4-3 7.5A3.5 3.5 0 0 0 12 13a3.5 3.5 0 0 0 3-5c1.5 1 2.5 3 2.5 5a5.5 5.5 0 1 1-11 0C6.5 8 9 6 12 2z"/></svg></div><h3>Gas &amp; pipelines</h3><i>+</i></div><p>Leakage detection, pressure monitoring, and GIS-enabled pipeline surveillance.</p></div>
         <div class="ind-card reveal" data-industry="safety" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M12 3 22 20H2L12 3z"/><line x1="12" y1="9" x2="12" y2="14"/><circle cx="12" cy="17" r="0.9"/></svg></div><h3>Industrial safety</h3><i>+</i></div><p>Furnace and hazardous-container monitoring with automated emergency escalation.</p></div>
         <div class="ind-card reveal" data-industry="water" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z"/></svg></div><h3>Water &amp; pump systems</h3><i>+</i></div><p>Overheating alerts, vibration monitoring, and predictive maintenance scheduling.</p></div>
-        <div class="ind-card reveal" data-industry="conveyor" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><rect x="3" y="16" width="18" height="3" rx="1"/><rect x="6" y="9" width="5" height="5" rx="0.8"/><rect x="13" y="9" width="5" height="5" rx="0.8"/></svg></div><h3>Plant &amp; conveyor</h3><i>+</i></div><p>Belt tear detection, jam alerts, and production-line efficiency dashboards.</p></div>
+        <div class="ind-card reveal" data-industry="conveyor" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><rect x="3" y="16" width="18" height="3" rx="1"/><rect x="6" y="9" width="5" height="5" rx="0.8"/><rect x="13" y="9" width="5" height="5" rx="0.8"/></svg></div><h3>Plant &amp; conveyor</h3><i>+</i></div><p>Bearing health, belt tear detection, jam alerts, and production-line efficiency dashboards.</p></div>
         <div class="ind-card reveal" data-industry="retail" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div><h3>Retail &amp; consumer</h3><i>+</i></div><p>Footfall analytics, shelf availability, and demand forecasting.</p></div>
         <div class="ind-card reveal" data-industry="healthcare" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div><h3>Healthcare</h3><i>+</i></div><p>Patient monitoring, bed occupancy analytics, and clinical workflow support.</p></div>
         <div class="ind-card reveal" data-industry="steel" tabindex="0" role="button" aria-haspopup="dialog"><div class="ind-title-row"><div class="iicon"><svg viewBox="0 0 24 24"><path d="M3 21V11l5 3v-3l5 3V8l5 3v10H3z"/></svg></div><h3>Steel manufacturing</h3><i>+</i></div><p>Furnace monitoring, quality inspection, and energy efficiency tracking.</p></div>
@@ -595,6 +755,23 @@
       </div>
     </div>
   </section>
+
+  <!-- VERTICAL DETAIL MODAL -->
+  <div class="modal-overlay" id="verticalModal" role="dialog" aria-modal="true" aria-labelledby="vModalTitle">
+    <div class="modal">
+      <button class="modal-close" id="vModalClose" aria-label="Close">✕</button>
+      <div class="modal-eyebrow">Business vertical</div>
+      <h3 id="vModalTitle"></h3>
+      <p class="modal-desc" id="vModalDesc"></p>
+      <div class="modal-sub">Working principle</div>
+      <p class="modal-principle" id="vModalPrinciple"></p>
+      <div class="modal-sub">Typical use cases</div>
+      <ul class="modal-uses" id="vModalUses"></ul>
+      <div class="modal-footer">
+        <a data-scroll="contact" class="btn btn-primary" id="vModalCta">Discuss this capability</a>
+      </div>
+    </div>
+  </div>
 
   <!-- INDUSTRY DETAIL MODAL -->
   <div class="modal-overlay" id="industryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -656,16 +833,19 @@
   <section class="section alt" id="why">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow">Why Synoquant</div>
-        <h2>Strategy, engineering, and execution — under one roof</h2>
+        <div class="eyebrow">Engineering focus</div>
+        <h2>Platforms engineered for measurable operational outcomes</h2>
+        <p>Deep industrial understanding combined with modern AI and cloud engineering — delivering faster incident detection and operational response.</p>
       </div>
       <div class="why-grid">
-        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Measurable outcomes</strong>Every solution is tied to a clear operational or business metric.</p></div>
-        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Field-tested approach</strong>Solutions designed to work on the shop floor, not just the slide deck.</p></div>
-        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Cross-industry depth</strong>From steel plants to banks, the same delivery discipline applies.</p></div>
-        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Flexible engagement</strong>Consulting, pilots, full deployment, or long-term managed services.</p></div>
-        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Security-first builds</strong>Compliance and data integrity considered from day one.</p></div>
-        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Long-term partnership</strong>We stay on for support, enhancement, and continuous improvement.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Real-time telemetry &amp; monitoring</strong>Continuous visibility across every connected asset.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>AI-driven predictive analytics</strong>Predict failures before they impact production.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Computer vision &amp; video intelligence</strong>Safety and quality monitoring at the edge.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Multi-site operational visibility</strong>One command view across every plant.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Cloud-native scalable architecture</strong>Platforms that grow with your operation.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Secure enterprise-grade deployment</strong>Compliance and data integrity from day one.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Integration with existing systems</strong>MODBUS, telemetry, and legacy plant equipment.</p></div>
+        <div class="why-item reveal"><div class="why-check">✓</div><p><strong>Faster incident detection &amp; response</strong>Alerts and escalation when every minute matters.</p></div>
       </div>
     </div>
   </section>
@@ -680,25 +860,25 @@
       </div>
       <div class="lead-grid">
         <div class="lead-card reveal">
-          <div class="lead-avatar">CEO</div>
+          <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
           <h3>Chief Executive Officer</h3>
           <span class="lead-role">Business &amp; growth</span>
           <p>Overall business direction, growth, partnerships, and strategic positioning.</p>
         </div>
         <div class="lead-card reveal">
-          <div class="lead-avatar">CTO</div>
+          <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
           <h3>Chief Technology Officer</h3>
           <span class="lead-role">Technology &amp; architecture</span>
           <p>Technology vision, architecture, solution quality, standards, and innovation.</p>
         </div>
         <div class="lead-card reveal">
-          <div class="lead-avatar">COO</div>
+          <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
           <h3>Chief Operating Officer</h3>
           <span class="lead-role">Delivery &amp; execution</span>
           <p>Operational delivery, client execution, and industrial engagement.</p>
         </div>
         <div class="lead-card reveal">
-          <div class="lead-avatar">L&amp;P</div>
+          <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
           <h3>Director, Learning &amp; Partnerships</h3>
           <span class="lead-role">Enablement &amp; ecosystem</span>
           <p>Training, academic programs, ecosystem partnerships, and capability building.</p>
@@ -712,7 +892,7 @@
     <div class="wrap">
       <div class="cta reveal">
         <h2>Let's discuss what your operations need next.</h2>
-        <p>Tell us about your environment — plant, grid, hospital, or enterprise — and we'll map out where AI and automation can help first.</p>
+        <p>Tell us about your environment — plant, substation, or enterprise — and we'll map out where IoT + AI monitoring can help first.</p>
         <div class="cta-actions">
           <a href="mailto:hello@synoquant.example" class="btn btn-primary" style="background:#fff; color:var(--dark-bg);">Start a conversation</a>
           <a data-scroll="top" class="btn btn-dark">Back to top</a>
@@ -729,18 +909,23 @@
       <div class="foot-brand">
         <a data-scroll="top" class="logo" aria-label="Synoquant Solutions Ltd.">
           <span class="logo-img">
-            <img src="synoLogo.png" alt="" aria-hidden="true">
+            <img src="synoLogo.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
           </span>
         </a>
-        <p>Enterprise AI, industrial automation, and intelligent infrastructure for organizations that can't afford to guess.</p>
+        <p>Industrial IoT + AI ecosystems for enterprises that can't afford to guess — monitoring, predictive maintenance, safety, and operational intelligence.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-6.8 7.8L23.3 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2z"/></svg></a>
+          <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a>
+        </div>
       </div>
       <div class="foot-col">
         <h5>Company</h5>
-        <ul><li><a data-scroll="verticals">Verticals</a></li><li><a data-scroll="industries">Industries</a></li><li><a data-scroll="process">How we work</a></li><li><a data-scroll="why">Why us</a></li><li><a data-scroll="leadership">Leadership</a></li></ul>
+        <ul><li><a data-scroll="platforms">Platforms</a></li><li><a data-scroll="verticals">Verticals</a></li><li><a data-scroll="industries">Industries</a></li><li><a data-scroll="process">How we work</a></li><li><a data-scroll="why">Why us</a></li><li><a data-scroll="leadership">Leadership</a></li></ul>
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <ul><li>Office — to be finalized</li><li>Email — to be finalized</li><li>Phone — to be finalized</li></ul>
+        <ul><li>Office — to be finalized</li><li>Email — <a href="mailto:hello@synoquant.example">hello@synoquant.example</a></li><li>Phone — to be finalized</li></ul>
       </div>
       <div class="foot-col">
         <h5>Company type</h5>
@@ -755,19 +940,24 @@
 </footer>
 
 <script>
-  // ---- Theme switching (in-memory only, no storage APIs) ----
+  // ---- Theme switching (persisted in localStorage) ----
   const THEMES = ['blue','teal','graphite','indigo','green'];
   const root = document.documentElement;
   const themeBtn = document.getElementById('themeBtn');
   const themeMenu = document.getElementById('themeMenu');
   const options = document.querySelectorAll('.theme-option');
 
+  function storageGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function storageSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
   function setTheme(name){
     root.setAttribute('data-theme', name);
     options.forEach(o => o.classList.toggle('active', o.dataset.theme === name));
     themeBtn.style.background = getComputedStyle(root).getPropertyValue('--accent');
+    storageSet('synoquant-theme', name);
   }
-  setTheme('teal');
+  const savedTheme = storageGet('synoquant-theme');
+  setTheme(THEMES.includes(savedTheme) ? savedTheme : 'teal');
 
   themeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -784,6 +974,20 @@
     if(!themeMenu.contains(e.target) && e.target !== themeBtn){
       themeMenu.classList.remove('open');
     }
+  });
+
+  // ---- Dark / light mode (persisted in localStorage) ----
+  const modeBtn = document.getElementById('modeBtn');
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+  function setMode(mode){
+    root.setAttribute('data-mode', mode);
+    if(themeColorMeta) themeColorMeta.setAttribute('content', mode === 'dark' ? '#0E1215' : '#0F6E56');
+    storageSet('synoquant-mode', mode);
+  }
+  const savedMode = storageGet('synoquant-mode');
+  setMode(savedMode === 'dark' ? 'dark' : 'light');
+  modeBtn.addEventListener('click', () => {
+    setMode(root.getAttribute('data-mode') === 'dark' ? 'light' : 'dark');
   });
 
   // ---- Internal nav (JS-driven, no anchor hrefs) ----
@@ -817,10 +1021,21 @@
     }
   });
 
-  // ---- Sticky header, scroll progress, back-to-top ----
+  // ---- Sticky header, scroll progress, back-to-top, scrollspy ----
   const header = document.getElementById('site-header');
   const scrollProgress = document.getElementById('scrollProgress');
   const toTopBtn = document.getElementById('toTop');
+  const spySections = ['platforms','verticals','industries','process','why','leadership','contact'].map(id => document.getElementById(id));
+  const navAnchors = document.querySelectorAll('#navLinks a[data-scroll]');
+  function updateScrollspy(){
+    const pos = window.scrollY + 120;
+    let current = '';
+    spySections.forEach(sec => {
+      if(sec && sec.offsetTop <= pos) current = sec.id;
+    });
+    if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) current = 'contact';
+    navAnchors.forEach(a => a.classList.toggle('active', a.dataset.scroll === current));
+  }
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     header.classList.toggle('scrolled', y > 40);
@@ -830,24 +1045,39 @@
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const pct = docHeight > 0 ? (y / docHeight) * 100 : 0;
     scrollProgress.style.width = pct + '%';
+    updateScrollspy();
   });
+  updateScrollspy();
   toTopBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-  // ---- Hero panel pointer glow ----
+  // ---- Hero panel pointer glow + 3D tilt ----
   const heroPanel = document.getElementById('heroPanel');
   const heroGlow = document.getElementById('heroGlow');
   const supportsHover = window.matchMedia('(pointer: fine)').matches;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(heroPanel && heroGlow && supportsHover && !reducedMotion){
     heroPanel.addEventListener('mousemove', (e) => {
+      if(!heroPanel.classList.contains('in')) return;
       const rect = heroPanel.getBoundingClientRect();
       heroPanel.style.setProperty('--gx', (e.clientX - rect.left) + 'px');
       heroPanel.style.setProperty('--gy', (e.clientY - rect.top) + 'px');
+      heroPanel.style.setProperty('--rx', (((e.clientY - rect.top) / rect.height - 0.5) * -6) + 'deg');
+      heroPanel.style.setProperty('--ry', (((e.clientX - rect.left) / rect.width - 0.5) * 6) + 'deg');
+    });
+    heroPanel.addEventListener('mouseleave', () => {
+      heroPanel.style.setProperty('--rx', '0deg');
+      heroPanel.style.setProperty('--ry', '0deg');
     });
   }
 
   // ---- Scroll reveal ----
   const revealEls = document.querySelectorAll('.reveal');
+  document.querySelectorAll('.vert-grid, .ind-grid, .why-grid, .lead-grid, .process-line, .engage-band').forEach(grid => {
+    grid.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i * 60, 420) + 'ms';
+      el.addEventListener('transitionend', () => { el.style.transitionDelay = ''; }, {once:true});
+    });
+  });
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
@@ -858,12 +1088,132 @@
   }, {threshold:0.15});
   revealEls.forEach(el => io.observe(el));
 
+  // ---- Vertical detail modal ----
+  const verticalData = {
+    ai:{
+      title:'AI & GenAI',
+      desc:'Generative and agentic AI systems that automate knowledge work, document processing, and complex multi-step tasks across the enterprise.',
+      principle:'Foundation models are augmented with retrieval-augmented generation (RAG) over enterprise data and orchestrated by agent frameworks that plan, use tools, and call APIs — with guardrails, audit trails, and human-in-the-loop approval for high-impact actions.',
+      uses:['Enterprise document intelligence','Agentic workflow automation','Operator and analyst copilots','Code generation and review','Conversational support and knowledge assistants']
+    },
+    indai:{
+      title:'Industrial AI',
+      desc:'Machine learning and computer vision applied to plant operations — predicting failures, digitizing inspections, and turning sensor data into decisions.',
+      principle:'Time-series models learn normal operating behavior from telemetry, while vision models run at the edge on camera feeds. Deviations trigger predictive alerts and maintenance recommendations before failure, with digital twins to simulate what-if scenarios.',
+      uses:['Predictive maintenance','Vision-based safety monitoring','Digital twins and simulation','Quality inspection','Telemetry anomaly detection']
+    },
+    entauto:{
+      title:'Enterprise automation',
+      desc:'Workflow and document automation for finance, compliance, HR, and operations — eliminating manual, repetitive processes.',
+      principle:'Workflow engines orchestrate systems of record while AI extraction layers read and validate documents, enabling straight-through processing with exception queues for human review — reducing cycle times and error rates.',
+      uses:['Document and invoice processing','Compliance automation','Decision-support systems','Workflow orchestration','Legacy system integration']
+    },
+    data:{
+      title:'Data & intelligence',
+      desc:'Data engineering, business intelligence, and predictive analytics that turn raw operational data into dashboards and forecasts.',
+      principle:'Streaming and batch pipelines unify data from sensors, ERPs, and systems of record into an analytics warehouse; ML models surface forecasts and the drivers behind every metric on real-time dashboards.',
+      uses:['Data engineering & pipelines','Predictive analytics','Real-time dashboards','Self-serve BI','Forecasting and scenario planning']
+    },
+    cloud:{
+      title:'Cloud & platform',
+      desc:'Cloud-native platforms, APIs, and secure DevOps — the foundation for reliable, scalable enterprise systems.',
+      principle:'Infrastructure as code, containerized microservices, and managed cloud services deliver elastic, cost-controlled platforms; CI/CD pipelines and observability keep releases safe and operations transparent.',
+      uses:['Enterprise platform engineering','API integration','Secure deployment & ops','Cloud migration','Resilience and scaling']
+    },
+    iot:{
+      title:'IoT & Edge AI',
+      desc:'End-to-end IoT and edge AI — from sensor integration and telemetry pipelines to remote monitoring dashboards.',
+      principle:'Edge gateways poll MODBUS and industrial protocols, normalize telemetry, and run lightweight inference locally; cloud ingestion adds scalable storage, analytics, and alerting across sites.',
+      uses:['Sensor & MODBUS integration','Remote asset monitoring','Industrial IoT platforms','Edge inference and filtering','Multi-site telemetry']
+    },
+    cyber:{
+      title:'Cybersecurity',
+      desc:'Security monitoring, access control, and compliance-ready builds for industrial and enterprise environments.',
+      principle:'Defense-in-depth across network, identity, and data — continuous monitoring and alerting, least-privilege access with audit trails, and security controls validated against compliance frameworks from day one.',
+      uses:['Monitoring & alerting','Access & audit controls','Compliance-ready builds','Vulnerability management','Incident response']
+    },
+    lnd:{
+      title:'Learning & development',
+      desc:'Corporate and academic training programs that build AI, IoT, and data skills inside your organization.',
+      principle:'Role-based learning paths combine instructor-led workshops, hands-on labs on real equipment, and industry-academia collaborations to move teams from awareness to applied capability.',
+      uses:['Corporate & faculty training','Technical workshops','Industry-academia programs','Capability roadmaps','Hands-on labs & PoCs']
+    },
+    staffing:{
+      title:'Staffing & talent',
+      desc:'Niche technology staffing and project-based hiring for AI, IoT, cloud, and data roles.',
+      principle:'A curated talent network matched by skill profile and domain exposure; consultants embed into delivery teams with defined outcomes and are backfilled or rotated as programs scale.',
+      uses:['Niche technology staffing','Project-based hiring','Skill-based deployment','Team augmentation','Talent pipelining']
+    },
+    managed:{
+      title:'Managed services',
+      desc:'L1–L3 support, monitoring, and long-term operations for platforms we build and run.',
+      principle:'Continuous monitoring with tiered escalation, runbooks and SLAs, proactive maintenance, and improvement cycles keep platforms healthy and evolving long after go-live.',
+      uses:['L1, L2, L3 support','Monitoring & maintenance','Incident management','Long-term operations','Continuous improvement']
+    },
+    consult:{
+      title:'Consulting & advisory',
+      desc:'AI adoption roadmaps, discovery, and solution architecture for organizations planning their next move.',
+      principle:'Structured discovery maps current operations, data, and constraints; architecture and prioritization turn findings into a phased roadmap with clear ROI hypotheses and quick-win pilots.',
+      uses:['AI adoption roadmaps','Discovery & assessment','Solution architecture','Feasibility & ROI analysis','Vendor-neutral advisory']
+    },
+    coe:{
+      title:'Research & CoE',
+      desc:'Innovation labs, academic partnerships, and pilot/PoC design for emerging technology initiatives.',
+      principle:'A dedicated research cell prototypes new capabilities, validates them on industrial data, and matures them through PoCs into production — with academic partners feeding fresh methods.',
+      uses:['Innovation labs','Academic partnerships','Pilot & PoC design','Prototype development','Technology scouting']
+    }
+  };
+
+  const verticalModal = document.getElementById('verticalModal');
+  const vModalTitle = document.getElementById('vModalTitle');
+  const vModalDesc = document.getElementById('vModalDesc');
+  const vModalPrinciple = document.getElementById('vModalPrinciple');
+  const vModalUses = document.getElementById('vModalUses');
+  const vModalClose = document.getElementById('vModalClose');
+  let vLastFocused = null;
+
+  function openVerticalModal(key){
+    const data = verticalData[key];
+    if(!data) return;
+    vModalTitle.textContent = data.title;
+    vModalDesc.textContent = data.desc;
+    vModalPrinciple.textContent = data.principle;
+    vModalUses.innerHTML = data.uses.map(u => `<li>${u}</li>`).join('');
+    vLastFocused = document.activeElement;
+    verticalModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    vModalClose.focus();
+  }
+  function closeVerticalModal(){
+    verticalModal.classList.remove('open');
+    document.body.style.overflow = '';
+    if(vLastFocused) vLastFocused.focus();
+  }
+
+  document.querySelectorAll('.vert-card').forEach(card => {
+    card.addEventListener('click', () => openVerticalModal(card.dataset.vertical));
+    card.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openVerticalModal(card.dataset.vertical);
+      }
+    });
+  });
+
+  vModalClose.addEventListener('click', closeVerticalModal);
+  verticalModal.addEventListener('click', (e) => {
+    if(e.target === verticalModal) closeVerticalModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && verticalModal.classList.contains('open')) closeVerticalModal();
+  });
+
   // ---- Industry detail modal ----
   const industryData = {
     power:{
       title:'Power & utilities',
-      desc:'AI-based surveillance, smart dashboards, and predictive monitoring for power sector organizations.',
-      uses:['Surveillance dashboard for supply line deviation monitoring','Real-time alerting for abnormal voltage or current patterns','Transformer health and temperature monitoring','Grid anomaly detection','Equipment failure prediction','Remote asset monitoring','Unauthorized access detection','Command center analytics']
+      desc:'Telemetry-driven monitoring for substations, transformers, and distribution networks — with fault detection and operational intelligence.',
+      uses:['Substation & DG telemetry visualization','Transformer health and temperature monitoring','Grid anomaly and fault detection','Energy analytics and optimization','Equipment failure prediction','Remote asset monitoring','Unauthorized access detection','Command center analytics']
     },
     gas:{
       title:'Gas supply & pipeline monitoring',
@@ -871,9 +1221,9 @@
       uses:['Leakage detection in gas pipelines','Pressure variation monitoring','Thermal anomaly detection','Edge-based alert systems','GIS-enabled pipeline monitoring','Automatic emergency notifications','Smart shutdown triggers','Safety compliance dashboards']
     },
     safety:{
-      title:'Furnaces, hazardous containers & industrial safety',
-      desc:'A high-priority area where early detection can prevent major accidents and save lives.',
-      uses:['Furnace temperature and hotspot detection','Hazardous container leakage detection','Smoke and gas anomaly monitoring','Thermal camera analytics','PPE compliance detection','Restricted-zone monitoring','Safety alert automation','Emergency escalation systems']
+      title:'Fire & industrial safety',
+      desc:'Computer vision and IoT-enabled monitoring for fire detection, PPE compliance, unsafe activity, and emergency response.',
+      uses:['Computer-vision fire detection','PPE compliance monitoring','Unsafe activity detection','Furnace temperature and hotspot detection','Hazardous container leakage detection','Restricted-zone monitoring','Hazard alert automation','Emergency escalation systems']
     },
     water:{
       title:'Water pumps & river extraction operations',
@@ -883,7 +1233,7 @@
     conveyor:{
       title:'Conveyor belt & plant monitoring',
       desc:'Continuous monitoring of material movement and machine health for steel, mining, manufacturing, logistics, and process plants.',
-      uses:['Conveyor belt tear and misalignment detection','Bearing and roller health monitoring','Jam detection and automatic alerts','Material flow analysis','Visual inspection of moving systems','Motor and drive analytics','Production line efficiency dashboards','Safety zone monitoring']
+      uses:['Bearing temperature monitoring','Chain elongation analysis','Conveyor belt tear and misalignment detection','Jam detection and automatic alerts','Material flow analysis','Predictive maintenance & failure prevention','Production line efficiency dashboards','Safety zone monitoring']
     },
     retail:{
       title:'Consumer products & retail',
@@ -897,8 +1247,8 @@
     },
     steel:{
       title:'Steel industry',
-      desc:'A core focus area where Synoquant adds value through industrial AI and process intelligence.',
-      uses:['Furnace monitoring','Conveyor belt surveillance','Predictive maintenance','Quality inspection through vision systems','Safety zone compliance','Energy efficiency monitoring','Production analytics','Equipment health dashboards']
+      desc:'A core focus area where Synoquant adds value through industrial AI, process intelligence, and platform-based monitoring.',
+      uses:['Furnace monitoring','Conveyor belt intelligence','VFD & drive monitoring','Predictive maintenance','Quality inspection through vision systems','Safety zone compliance','Energy efficiency monitoring','Equipment health dashboards']
     },
     banking:{
       title:'Banking & finance',
