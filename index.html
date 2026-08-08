@@ -151,13 +151,13 @@
   .navbar{display:flex; align-items:center; justify-content:space-between; gap:24px;}
   .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:19px;}
   .logo-img{
-    width:39px; height:32px; overflow:hidden; flex-shrink:0; position:relative;
+    width:29px; height:34px; overflow:hidden; flex-shrink:0; position:relative;
     transition:width .35s ease;
   }
   .logo-img img{
-    position:absolute; left:-32px; top:-44px; height:128px; width:auto; max-width:none; display:block;
+    position:absolute; left:-18px; top:-34px; height:103px; width:auto; max-width:none; display:block;
   }
-  .logo:hover .logo-img, .logo:focus-visible .logo-img{width:125px;}
+  .logo:hover .logo-img, .logo:focus-visible .logo-img{width:123px;}
   .nav-links{display:flex; align-items:center; gap:32px; font-size:14.5px; font-weight:500; color:var(--text-soft);}
   .nav-links a{transition:color .15s ease;}
   .nav-links a:hover{color:var(--accent);}
@@ -261,7 +261,7 @@
   .vert-card:hover{border-color:var(--accent); transform:translateY(-3px); box-shadow:0 12px 28px rgba(20,23,26,0.12);}
   .vert-card h3{font-size:17px; margin-bottom:10px;}
   .vert-card ul{color:var(--text-soft); font-size:13.5px; display:flex; flex-direction:column; gap:5px;}
-  .vert-card ul li::before{content:"— "; color:var(--accent);}
+  .vert-card ul li::before{content:"—"; color:var(--accent);}
 
   .vert-flip{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.45,.05,.2,1);}
   .vert-card[data-vertical]:hover .vert-flip, .vert-card[data-vertical]:focus-visible .vert-flip{transform:rotateY(180deg);}
@@ -467,6 +467,11 @@
   .lead-card h3{font-size:16px; margin-bottom:4px;}
   .lead-role{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:block;}
   .lead-card p{font-size:13.5px; color:var(--text-soft);}
+  .lead-card{cursor:pointer;}
+  .lead-more{display:inline-flex; align-items:center; gap:6px; margin-top:12px; font-size:12px; font-weight:600; color:var(--accent); font-family:var(--font-mono); letter-spacing:.05em; text-transform:uppercase;}
+  .lead-more i{font-style:normal; transition:transform .15s ease;}
+  .lead-card:hover .lead-more i{transform:translateX(4px);}
+  .modal-role{font-family:var(--font-mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;}
 
   @media (max-width: 920px){
     .hero-grid{grid-template-columns:1fr;}
@@ -508,7 +513,7 @@
   <div class="wrap navbar">
     <a data-scroll="top" class="logo" aria-label="Synoquant Solutions Ltd.">
       <span class="logo-img">
-        <img src="synoLogo.png" alt="" aria-hidden="true" decoding="async">
+        <img src="synoLogo-clear.png" alt="" aria-hidden="true" decoding="async">
       </span>
     </a>
 
@@ -576,7 +581,7 @@
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow">Industrial IoT · AI Analytics · Automation</div>
+          <div class="eyebrow">Industrial IoT Â· AI Analytics Â· Automation</div>
           <h1>Industrial IoT + AI ecosystems for <em>plants, grids, and enterprises</em> that can't afford to guess.</h1>
           <p class="lead">Synoquant builds next-generation IoT + AI ecosystems — telemetry, MODBUS, edge computing, computer vision, and predictive analytics — that improve operational efficiency, plant safety, asset reliability, workforce monitoring, and real-time decision-making.</p>
           <div class="hero-actions">
@@ -826,6 +831,22 @@
     </div>
   </div>
 
+  <!-- LEADERSHIP DETAIL MODAL -->
+  <div class="modal-overlay" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <div class="modal">
+      <button class="modal-close" id="leadModalClose" aria-label="Close">✕</button>
+      <div class="modal-eyebrow">Founding member</div>
+      <h3 id="leadModalTitle"></h3>
+      <p class="modal-role" id="leadModalRole"></p>
+      <p class="modal-desc" id="leadModalDesc"></p>
+      <div class="modal-sub">At Synoquant</div>
+      <p class="modal-principle" id="leadModalFocus"></p>
+      <div class="modal-footer">
+        <a data-scroll="contact" class="btn btn-primary" id="leadModalCta">Connect with us</a>
+      </div>
+    </div>
+  </div>
+
   <!-- PROCESS -->
   <section class="section" id="process">
     <div class="wrap">
@@ -894,32 +915,36 @@
       <div class="section-head reveal">
         <div class="eyebrow">Leadership &amp; organization</div>
         <h2>Structured for strategy, technology, and delivery</h2>
-        <p>A balanced leadership model that keeps business growth, engineering quality, and client execution moving together.</p>
+        <p>Synoquant Technologies Private Limited is guided by a founding leadership team with deep experience across enterprise technology, industrial AI, digital transformation, delivery execution, and workforce enablement — balancing vision, technology leadership, operational excellence, and ecosystem-building.</p>
       </div>
       <div class="lead-grid">
-        <div class="lead-card reveal">
+        <div class="lead-card reveal" data-leader="ceo" tabindex="0" role="button" aria-haspopup="dialog">
           <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
-          <h3>Chief Executive Officer</h3>
-          <span class="lead-role">Business &amp; growth</span>
-          <p>Overall business direction, growth, partnerships, and strategic positioning.</p>
+          <h3>Rajanikant Prasad</h3>
+          <span class="lead-role">Director &amp; CEO · 28+ years</span>
+          <p>Business direction, growth, partnerships, and strategic positioning.</p>
+          <span class="lead-more">View profile <i>→</i></span>
         </div>
-        <div class="lead-card reveal">
+        <div class="lead-card reveal" data-leader="cto" tabindex="0" role="button" aria-haspopup="dialog">
           <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
-          <h3>Chief Technology Officer</h3>
-          <span class="lead-role">Technology &amp; architecture</span>
-          <p>Technology vision, architecture, solution quality, standards, and innovation.</p>
+          <h3>Dr. Manas Kumar Rath</h3>
+          <span class="lead-role">Director &amp; CTO · 25+ years</span>
+          <p>Technology vision, architecture, AI research, and platform innovation.</p>
+          <span class="lead-more">View profile <i>→</i></span>
         </div>
-        <div class="lead-card reveal">
+        <div class="lead-card reveal" data-leader="coo" tabindex="0" role="button" aria-haspopup="dialog">
           <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
-          <h3>Chief Operating Officer</h3>
-          <span class="lead-role">Delivery &amp; execution</span>
-          <p>Operational delivery, client execution, and industrial engagement.</p>
+          <h3>Devashish Pattanayak</h3>
+          <span class="lead-role">Director &amp; COO · 19+ years</span>
+          <p>End-to-end delivery, operational governance, and customer success.</p>
+          <span class="lead-more">View profile <i>→</i></span>
         </div>
-        <div class="lead-card reveal">
+        <div class="lead-card reveal" data-leader="clipo" tabindex="0" role="button" aria-haspopup="dialog">
           <div class="lead-avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg></div>
-          <h3>Director, Learning &amp; Partnerships</h3>
-          <span class="lead-role">Enablement &amp; ecosystem</span>
-          <p>Training, academic programs, ecosystem partnerships, and capability building.</p>
+          <h3>Dr. Tanmaya Swain</h3>
+          <span class="lead-role">Director &amp; CLIPO · 15+ years</span>
+          <p>Training, academic partnerships, CoEs, and talent development.</p>
+          <span class="lead-more">View profile <i>→</i></span>
         </div>
       </div>
     </div>
@@ -963,7 +988,7 @@
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <ul><li>Office — Bengaluru</li></ul>
+        <ul><li>Corporate Office — Bengaluru</li><li>Regd Office — Jharkhand</li><li>Branch Office — Bhubaneswar</li></ul>
         <ul class="foot-mails">
           <li>Email:</li>
           <li><a href="mailto:dev@synoquant.in">dev@synoquant.in</a></li>
@@ -978,7 +1003,7 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Synoquant Solutions Ltd. All rights reserved.</span>
+      <span>Â© 2026 Synoquant Solutions Ltd. All rights reserved.</span>
       <span>Built for enterprises that measure what matters.</span>
     </div>
   </div>
@@ -1191,7 +1216,7 @@
     },
     managed:{
       title:'Managed services',
-      desc:'L1–L3 support, monitoring, and long-term operations for platforms we build and run.',
+      desc:'L1—L3 support, monitoring, and long-term operations for platforms we build and run.',
       principle:'Continuous monitoring with tiered escalation, runbooks and SLAs, proactive maintenance, and improvement cycles keep platforms healthy and evolving long after go-live.',
       uses:['L1, L2, L3 support','Monitoring & maintenance','Incident management','Long-term operations','Continuous improvement']
     },
@@ -1341,6 +1366,77 @@
   });
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape' && industryModal.classList.contains('open')) closeIndustryModal();
+  });
+
+  // ---- Leadership detail modal ----
+  const leadershipData = {
+    ceo:{
+      title:'Rajanikant Prasad',
+      role:'Director & Chief Executive Officer · 28+ years experience',
+      desc:'A seasoned business and technology leader with nearly three decades of experience in enterprise technology, digital transformation, business development, and strategic partnerships across leading IT and consulting organizations. He has successfully led large-scale transformation initiatives, built high-performing teams, managed multi-million-dollar business portfolios, and developed long-term relationships with global enterprises and public sector organizations.',
+      focus:'Defining the company\u2019s vision and growth strategy, driving business expansion, investor and government relations, corporate partnerships, market positioning, and overall organizational performance — with a strong focus on establishing Synoquant as a trusted technology enablement and industrial AI transformation partner.'
+    },
+    cto:{
+      title:'Dr. Manas Kumar Rath',
+      role:'Director & Chief Technology Officer · 25+ years experience',
+      desc:'An accomplished technology architect and innovation leader with deep expertise in Artificial Intelligence, Industrial IoT, cloud platforms, enterprise architecture, data engineering, and scalable software product development. He has extensive experience in designing and delivering mission-critical enterprise solutions, AI-driven platforms, and digital transformation programs for large organizations across manufacturing, industrial, and technology sectors.',
+      focus:'Leading the technology vision, product engineering, AI research, platform architecture, cybersecurity, and intellectual property development — building next-generation industrial automation, computer vision, and intelligent analytics solutions that form the company\u2019s core technology portfolio.'
+    },
+    coo:{
+      title:'Devashish Pattanayak',
+      role:'Director & Chief Operating Officer · 19+ years experience',
+      desc:'A highly experienced operations and delivery executive with a strong background in program management, industrial automation, engineering execution, quality assurance, customer delivery, and operational excellence. He has successfully managed complex technology implementations, cross-functional engineering teams, and large-scale client engagements across industrial and enterprise environments.',
+      focus:'Responsible for end-to-end execution of projects, operational governance, delivery management, customer success, resource optimization, process excellence, and scaling the organization\u2019s industrial AI and IoT implementation capabilities — ensuring predictable execution and superior client outcomes.'
+    },
+    clipo:{
+      title:'Dr. Tanmaya Swain',
+      role:'Director & Chief Learning & Industry Partnerships Officer · 15+ years experience',
+      desc:'An experienced academic, skilling, and industry engagement leader with extensive expertise in technology education, workforce transformation, corporate learning, institutional partnerships, and talent development. He has worked closely with universities, engineering institutions, government agencies, and corporate organizations to design industry-relevant curricula, certification programs, faculty development initiatives, and innovation ecosystems that enhance employability and technical excellence.',
+      focus:'Leading the company\u2019s technology training and workforce transformation vertical, academic collaborations, corporate learning programs, Centers of Excellence, certification initiatives, internship and research partnerships, and strategic alliances that strengthen Synoquant\u2019s position as a premier technology and industrial skilling organization.'
+    }
+  };
+
+  const leadModal = document.getElementById('leadModal');
+  const leadModalTitle = document.getElementById('leadModalTitle');
+  const leadModalRole = document.getElementById('leadModalRole');
+  const leadModalDesc = document.getElementById('leadModalDesc');
+  const leadModalFocus = document.getElementById('leadModalFocus');
+  const leadModalClose = document.getElementById('leadModalClose');
+  let leadLastFocused = null;
+
+  function openLeadModal(key){
+    const data = leadershipData[key];
+    if(!data) return;
+    leadModalTitle.textContent = data.title;
+    leadModalRole.textContent = data.role;
+    leadModalDesc.textContent = data.desc;
+    leadModalFocus.textContent = data.focus;
+    leadLastFocused = document.activeElement;
+    leadModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    leadModalClose.focus();
+  }
+  function closeLeadModal(){
+    leadModal.classList.remove('open');
+    document.body.style.overflow = '';
+    if(leadLastFocused) leadLastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-leader]').forEach(card => {
+    card.addEventListener('click', () => openLeadModal(card.dataset.leader));
+    card.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openLeadModal(card.dataset.leader);
+      }
+    });
+  });
+  leadModalClose.addEventListener('click', closeLeadModal);
+  leadModal.addEventListener('click', (e) => {
+    if(e.target === leadModal) closeLeadModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && leadModal.classList.contains('open')) closeLeadModal();
   });
 
   // ---- Animated hero metrics ----
