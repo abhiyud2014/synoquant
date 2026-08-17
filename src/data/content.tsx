@@ -94,13 +94,6 @@ export const TICKER_ITEMS = [
   ['IOTA™ Industrial IoT Hub', 'multi-plant dashboards'],
 ]
 
-export const HERO_STATS = [
-  { target: 8, label: 'Solution platforms' },
-  { target: 9, label: 'Industries served' },
-  { target: 7, label: 'Step delivery model' },
-  { target: 24, label: 'Support coverage, hrs' },
-]
-
 export const PLATFORMS: CarouselItem[] = [
   {
     key: 'vfd',
@@ -624,7 +617,7 @@ export const LEADERS = [
   {
     key: 'clipo',
     name: 'Dr. Tanmaya Swain',
-    role: 'Director & CLIPO · 15+ years',
+    role: 'Director & CLIPO · 20+ years',
     summary: 'Training, academic partnerships, CoEs, and talent development.',
     initials: 'TS',
   },
@@ -651,7 +644,7 @@ export const LEADER_DATA: Record<string, { title: string; role: string; desc: st
   },
   clipo: {
     title: 'Dr. Tanmaya Swain',
-    role: 'Director & Chief Learning & Industry Partnerships Officer · 15+ years experience',
+    role: 'Director & Chief Learning & Industry Partnerships Officer · 20+ years experience',
     desc: 'An experienced academic, skilling, and industry engagement leader with extensive expertise in technology education, workforce transformation, corporate learning, institutional partnerships, and talent development. He has worked closely with universities, engineering institutions, government agencies, and corporate organizations to design industry-relevant curricula, certification programs, faculty development initiatives, and innovation ecosystems that enhance employability and technical excellence.',
     focus: 'Leading the company\u2019s technology training and workforce transformation vertical, academic collaborations, corporate learning programs, Centers of Excellence, certification initiatives, internship and research partnerships, and strategic alliances that strengthen Synoquant\u2019s position as a premier technology and industrial skilling organization.',
   },
