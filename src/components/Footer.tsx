@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
 
       <div className="border-t border-white/[0.06]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 md:flex-row">
-          <p className="text-xs text-white/50">© 2026 Synoquant Solutions Ltd. All rights reserved.</p>
+          <p className="text-xs text-white/50">© 2026 Synoquant Pvt. Ltd. All rights reserved.</p>
           <p className="text-xs font-semibold text-teal-400/80">Built for enterprises that measure what matters.</p>
         </div>
       </div>
