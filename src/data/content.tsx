@@ -656,7 +656,7 @@ export const EMAILS = ['info@synoquant.in', 'founder@synoquant.in']
 export const FOOTER_COLS = [
   { title: 'Company', links: ['About', 'Platforms', 'Verticals', 'Industries', 'How we work', 'Why us', 'Leadership'] },
   { title: 'Contact', links: [...OFFICES, ...EMAILS] },
-  { title: 'Company type', links: ['Synoquant Solutions Ltd.', 'Private Limited Company'] },
+  { title: 'Company type', links: ['Private Limited Company'] },
 ]
 
 export const HERO_BG_IMG = '/assets/synoquant/hero.jpg'
