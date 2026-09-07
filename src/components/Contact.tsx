@@ -36,10 +36,10 @@ info@synoquant.in
 
         <div className="mt-14 grid gap-4 md:grid-cols-4">
           {[
-            { title: 'COO', email: 'dev@synoquant.in' },
-            { title: 'CEO Office', email: 'raj@synoquant.in' },
-            { title: 'Learning & Partnerships', email: 'tanmay@synoquant.in' },
-            { title: 'Technology & AI', email: 'manasrath@synoquant.in' },
+            { title: 'COO', email: 'founder@synoquant.in' },
+            { title: 'CEO Office', email: 'founder@synoquant.in' },
+            { title: 'Learning & Partnerships', email: 'founder@synoquant.in' },
+            { title: 'Technology & AI', email: 'founder@synoquant.in' },
           ].map((c) => (
             <a
               key={c.title}
