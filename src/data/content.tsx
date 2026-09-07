@@ -650,8 +650,8 @@ export const LEADER_DATA: Record<string, { title: string; role: string; desc: st
   },
 }
 
-export const OFFICES = ['Corporate Office — Bengaluru', 'Regd Office — Jharkhand', 'Branch Office — Bhubaneswar']
-export const EMAILS = ['info@synoquant.in', 'raj@synoquant.in', 'tanmay@synoquant.in', 'manasrath@synoquant.in']
+export const OFFICES = ['Office — Bhubaneswar, India']
+export const EMAILS = ['info@synoquant.in', 'founder@synoquant.in']
 
 export const FOOTER_COLS = [
   { title: 'Company', links: ['About', 'Platforms', 'Verticals', 'Industries', 'How we work', 'Why us', 'Leadership'] },
